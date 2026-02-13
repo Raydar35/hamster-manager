@@ -1,34 +1,35 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
+const initialHamsters = [
+  { id: 'hugo-0', name: 'Hugo' },
+  { id: 'jason-1', name: 'Jason' },
+  { id: 'macho-2', name: 'Macho' },
+  { id: 'tyler-3', name: 'Tyler' },
+]
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [hamsters] = useState(initialHamsters)
+
+  const totalHamsters = hamsters.reduce((total) => total + 1, 0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <main className="app">
+      <header className="appHeader">
+        <h1>Hamster Manager</h1>
+        <p className="summary">Total hamsters: {totalHamsters}</p>
+      </header>
+
+      <section className="panel" aria-label="Current hamsters">
+        <ul className="hamsterList">
+          {hamsters.map((hamster) => (
+            <li key={hamster.id} className="hamsterListItem">
+              {hamster.name}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
   )
 }
 
