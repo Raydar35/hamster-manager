@@ -2,10 +2,30 @@ import { useState } from 'react'
 import './App.css'
 
 const initialHamsters = [
-  { id: 'hugo-0', name: 'Hugo' },
-  { id: 'jason-1', name: 'Jason' },
-  { id: 'macho-2', name: 'Macho' },
-  { id: 'tyler-3', name: 'Tyler' },
+  {
+    id: 'hugo-0',
+    name: 'Hugo',
+    photo: '/hamsters/hugo.jpg',
+    photoAlt: 'Hugo the hamster',
+  },
+  {
+    id: 'jason-1',
+    name: 'Jason',
+    photo: '/hamsters/jason.jpg',
+    photoAlt: 'Jason the hamster',
+  },
+  {
+    id: 'macho-2',
+    name: 'Macho',
+    photo: '/hamsters/macho.jpg',
+    photoAlt: 'Macho the hamster',
+  },
+  {
+    id: 'tyler-3',
+    name: 'Tyler',
+    photo: '/hamsters/tyler.jpg',
+    photoAlt: 'Tyler the hamster',
+  },
 ]
 
 function App() {
@@ -24,7 +44,15 @@ function App() {
         <ul className="hamsterList">
           {hamsters.map((hamster) => (
             <li key={hamster.id} className="hamsterListItem">
-              {hamster.name}
+              <img
+                className="hamsterAvatar"
+                src={hamster.photo}
+                alt={hamster.photoAlt}
+                width={44}
+                height={44}
+                loading="lazy"
+              />
+              <span className="hamsterName">{hamster.name}</span>
             </li>
           ))}
         </ul>
