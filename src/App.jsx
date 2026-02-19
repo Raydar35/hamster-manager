@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import HamsterForm from './components/HamsterForm.jsx'
+import HamsterList from './components/HamsterList.jsx'
 
 const initialHamsters = [
   {
@@ -29,9 +31,37 @@ const initialHamsters = [
 ]
 
 function App() {
-  const [hamsters] = useState(initialHamsters)
+  const [hamsters, setHamsters] = useState(initialHamsters)
 
-  const totalHamsters = hamsters.reduce((total) => total + 1, 0)
+  function createHamsterId(name) {
+    if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID()
+    return `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`
+  }
+
+  function addHamster(name) {
+    const newHamster = {
+      id: createHamsterId(name),
+      name,
+      photo: '',
+      photoAlt: '',
+    }
+
+    setHamsters((current) => [newHamster, ...current])
+  }
+
+  function deleteHamster(id) {
+    setHamsters((current) => current.filter((hamster) => hamster.id !== id))
+  }
+
+  function updateHamster(id, updates) {
+    setHamsters((current) =>
+      current.map((hamster) =>
+        hamster.id === id ? { ...hamster, ...updates } : hamster,
+      ),
+    )
+  }
+
+  const totalHamsters = hamsters.length
 
   return (
     <main className="app">
@@ -40,22 +70,16 @@ function App() {
         <p className="summary">Total hamsters: {totalHamsters}</p>
       </header>
 
+      <section className="panel" aria-label="Add a hamster">
+        <HamsterForm onAdd={addHamster} />
+      </section>
+
       <section className="panel" aria-label="Current hamsters">
-        <ul className="hamsterList">
-          {hamsters.map((hamster) => (
-            <li key={hamster.id} className="hamsterListItem">
-              <img
-                className="hamsterAvatar"
-                src={hamster.photo}
-                alt={hamster.photoAlt}
-                width={44}
-                height={44}
-                loading="lazy"
-              />
-              <span className="hamsterName">{hamster.name}</span>
-            </li>
-          ))}
-        </ul>
+        <HamsterList
+          hamsters={hamsters}
+          onDelete={deleteHamster}
+          onUpdate={updateHamster}
+        />
       </section>
     </main>
   )
