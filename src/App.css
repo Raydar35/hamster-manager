@@ -89,6 +89,59 @@
   gap: 0.35rem;
 }
 
+.hamsterFormPreview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.previewLabel {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.photoFieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.photoChoice {
+  display: grid;
+  place-items: center;
+  padding: 0.35rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.photoChoice:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.photoChoiceSelected {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.photoChoiceImg {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .fieldLabel {
   font-size: 0.95rem;
   font-weight: 600;

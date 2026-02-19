@@ -3,31 +3,13 @@ import './App.css'
 import HamsterForm from './components/HamsterForm.jsx'
 import HamsterList from './components/HamsterList.jsx'
 
-const initialHamsters = [
-  {
-    id: 'hugo-0',
-    name: 'Hugo',
-    photo: '/hamsters/hugo.jpg',
-    photoAlt: 'Hugo the hamster',
-  },
-  {
-    id: 'jason-1',
-    name: 'Jason',
-    photo: '/hamsters/jason.jpg',
-    photoAlt: 'Jason the hamster',
-  },
-  {
-    id: 'macho-2',
-    name: 'Macho',
-    photo: '/hamsters/macho.jpg',
-    photoAlt: 'Macho the hamster',
-  },
-  {
-    id: 'tyler-3',
-    name: 'Tyler',
-    photo: '/hamsters/tyler.jpg',
-    photoAlt: 'Tyler the hamster',
-  },
+const initialHamsters = []
+
+const hamsterPhotos = [
+  '/hamsters/hugo.jpg',
+  '/hamsters/jason.jpg',
+  '/hamsters/macho.jpg',
+  '/hamsters/tyler.jpg',
 ]
 
 function App() {
@@ -38,12 +20,16 @@ function App() {
     return `${name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`
   }
 
-  function addHamster(name) {
+  function addHamster({ name, photo }) {
+    const trimmedName = String(name ?? '').trim()
+    if (!trimmedName) return
+    if (!photo) return
+
     const newHamster = {
-      id: createHamsterId(name),
-      name,
-      photo: '',
-      photoAlt: '',
+      id: createHamsterId(trimmedName),
+      name: trimmedName,
+      photo,
+      photoAlt: `${trimmedName} the hamster`,
     }
 
     setHamsters((current) => [newHamster, ...current])
@@ -55,9 +41,19 @@ function App() {
 
   function updateHamster(id, updates) {
     setHamsters((current) =>
-      current.map((hamster) =>
-        hamster.id === id ? { ...hamster, ...updates } : hamster,
-      ),
+      current.map((hamster) => {
+        if (hamster.id !== id) return hamster
+
+        const next = { ...hamster, ...updates }
+
+        if (Object.prototype.hasOwnProperty.call(updates, 'name')) {
+          const trimmedName = String(next.name ?? '').trim()
+          next.name = trimmedName
+          next.photoAlt = next.photo ? `${trimmedName} the hamster` : ''
+        }
+
+        return next
+      }),
     )
   }
 
@@ -71,7 +67,7 @@ function App() {
       </header>
 
       <section className="panel" aria-label="Add a hamster">
-        <HamsterForm onAdd={addHamster} />
+        <HamsterForm onAdd={addHamster} photos={hamsterPhotos} />
       </section>
 
       <section className="panel" aria-label="Current hamsters">
