@@ -10,6 +10,8 @@ const hamsterPhotos = [
   '/hamsters/jason.jpg',
   '/hamsters/macho.jpg',
   '/hamsters/tyler.jpg',
+  '/hamsters/peace.jpg',
+  '/hamsters/void.jpg',
 ]
 
 function App() {

@@ -78,8 +78,8 @@ function HamsterForm({ onAdd, photos }) {
                       className="photoChoiceImg"
                       src={src}
                       alt=""
-                      width={64}
-                      height={64}
+                      width={96}
+                      height={96}
                       loading="lazy"
                     />
                   </label>
