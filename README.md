@@ -1,16 +1,70 @@
-# React + Vite
+# Hamster Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Name: Darius Beckford**
 
-Currently, two official plugins are available:
+A simple React app that lets you manage a list of hamsters. Users can:
+- **Add** a hamster by entering a name and selecting a picture from a grid
+- **View** the current hamsters in a list
+- **Edit** a hamster’s **name only**
+- **Delete** a hamster from the list
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to run
+1. Install dependencies:
+   ``bash
+   npm install
+   ``
+2. Start the dev server:
+   ``bash
+   npm run dev
+   ``
+3. Open the local URL shown in the terminal (usually `http://localhost:5173`).
 
-## React Compiler
+## Feature/rubric checklist
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1) Component-based implementation
+The UI is split into reusable components:
+- `components/HamsterForm.jsx`: form for adding a hamster (name + picture picker grid)
+- `components/HamsterList.jsx`: renders the list container (`ul`)
+- `components/HamsterItem.jsx`: renders a single hamster row (`li`) with edit/delete controls
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2) Application of `map` and `filter`
+This project uses React-friendly array methods to update immutable state:
+
+- **`map`**: used to update an existing hamster without mutating the array  
+  (in `App.jsx`, `updateHamster` maps over the list and updates the matching item by `id`).
+
+- **`filter`**: used to delete an existing hamster  
+  (in `App.jsx`, `deleteHamster` filters out the hamster with the matching `id`).
+
+---
+
+### 3) Add/Insert New Item
+Adding is handled by the form:
+- The user enters a name and selects a picture from the image grid.
+- On submit, `HamsterForm` calls `onAdd({ name, photo })`.
+- In `App.jsx`, `addHamster` creates a new hamster object with an `id` and inserts it into state.
+
+---
+
+### 4) Delete/Remove Existing Item
+Each hamster row includes a **Delete** button.
+- Clicking it triggers `onDelete(id)` from `HamsterItem`.
+- In `App.jsx`, `deleteHamster` removes it using `filter`.
+
+---
+
+### 5) Update Existing Item
+Each hamster row includes an **Edit** flow for the hamster’s **name**.
+- `HamsterItem` toggles into an editing mode for the name.
+- Saving triggers `onUpdate(id, { name })`.
+- In `App.jsx`, `updateHamster` applies the name change using `map`.
+
+---
+
+### 6) Display the current list of items
+The hamster list is displayed as a semantic HTML list:
+- `HamsterList` renders a `<ul>`
+- Each hamster is rendered as an `<li>` via `HamsterItem`
+- The hamster name and selected picture are shown for each item
